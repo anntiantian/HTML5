@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+        <style>
+            #canvas{ margin: 10px; border: 1px solid #000;}
+        </style>
+    </head>
+    <body>
+        <div>HTML5 mosaic demo</div>
+        <canvas id="canvas" width="300" height="300"></canvas>
+        <script type="text/javascript">
+            var canvas = document.getElementById("canvas");
+            var context = canvas.getContext("2d");
+            
+            var imageData = context.createImageData(300, 300);
+            var pixels = imageData.data;
+            // Number of mosaic tiles
+            var numTileRows = 20;
+            var numTileCols = 20;
+            
+            var tileWidth = imageData.width / numTileRows;
+            var tileHeight = imageData.height / numTileCols;
+            var numPixels = imageData.width * imageData.height;
+            
+            for( var i = 0; i < numTileRows; i++ ){
+                for( var j = 0; j < numTileCols; j++ ){
+                    // each tile
+                    var red = Math.floor(Math.random()*255);
+                    var green = Math.floor(Math.random()*255);
+                    var blue = Math.floor(Math.random()*255);
+                    for( var ti = 0; ti < tileHeight; ti++ ){
+                        for( var tj = 0; tj < tileWidth; tj++ ){
+                            var trueX = j * tileWidth + tj;
+                            var trueY = i * tileHeight + ti;
+                            var pos = (trueY*(imageData.width*4))+(trueX*4);
+                            pixels[pos] = red;
+                            pixels[pos+1] = green;
+                            pixels[pos+2] = blue;
+                            pixels[pos+3] = 255;
+                        }
+                    }
+                }
+            }
+            
+            context.putImageData(imageData, 0, 0);
+        </script>
+    </body>
+</html>
